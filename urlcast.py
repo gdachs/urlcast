@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
-from subprocess import call
+from subprocess import Popen
 import urlparse
 import socket
 
@@ -14,7 +14,7 @@ class MyHandler(BaseHTTPRequestHandler):
             self.send_header('Content-type',	'text/html')
             self.end_headers()
             url = parsed_path.query.split("=")[1]
-            call(["google-chrome", url])
+            Popen(["google-chrome", "--start-fullscreen", url])
             self.wfile.write("casted url: " + url)
 	else:
             self.send_response(200)
