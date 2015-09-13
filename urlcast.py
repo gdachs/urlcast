@@ -3,6 +3,7 @@
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 from subprocess import call
 import urlparse
+import socket
 
 class MyHandler(BaseHTTPRequestHandler):
 
@@ -15,7 +16,16 @@ class MyHandler(BaseHTTPRequestHandler):
             url = parsed_path.query.split("=")[1]
             call(["google-chrome", url])
             self.wfile.write("casted url: " + url)
-
+	else:
+            self.send_response(200)
+            self.send_header('Content-type',	'text/html')
+            self.end_headers()
+            self.wfile.write("Add this bookmarklet to your favourites: ")
+            self.wfile.write("<a href=\"javascript:location.href='http://" +
+                socket.getfqdn() + 
+                ":9999/urlcast?url='+location.href\">Cast to TV</a>")
+            self.wfile.write("<p>")
+            self.wfile.write("Click on it to cast the current page to the TV")
         return
                 
 def main():
