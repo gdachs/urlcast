@@ -13,7 +13,7 @@ class MyHandler(BaseHTTPRequestHandler):
             self.send_response(200)
             self.send_header('Content-type',	'text/html')
             self.end_headers()
-            url = parsed_path.query.split("=")[1]
+            url = parsed_path.query.split("=", 1)[1]
             Popen(["google-chrome", "--start-fullscreen", url])
             self.wfile.write("casted url: " + url)
 	else:
